@@ -94,3 +94,5 @@ Explore the editors:
 Browse our extensions for VSCode, Sublime Text and Atom:
 
 [codyhouse.co/ds/docs/extensions](https://codyhouse.co/ds/docs/extensions)
+
+## Thank You
