@@ -112,7 +112,21 @@ nav {
 
 
 .row-brands {
-
+  .home-brands-grid {
+    
+    @media (min-width:500px) {
+      .home-brand-logo {
+        min-width: 50%;
+      }
+    }
+    @media (min-width:768px) {
+      flex-wrap:nowrap;
+      .home-brand-logo {
+        min-width: inherit;
+        max-width:20%;
+      }
+    }
+  }
   .row-brands-arrow {
     width: 100px;
     margin-left: 100px;

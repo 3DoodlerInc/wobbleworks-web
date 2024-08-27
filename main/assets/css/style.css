@@ -12403,6 +12403,20 @@ nav .header__item a.btn {
   .row-brands-pika img { background-color: hsl(43deg 68% 95%); }
   .row-brands-scrib img { background-color: $color-theme-lightgray; } */
 }
+@media (min-width: 500px) {
+  .row-brands .home-brands-grid .home-brand-logo {
+    min-width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .row-brands .home-brands-grid {
+    flex-wrap: nowrap;
+  }
+  .row-brands .home-brands-grid .home-brand-logo {
+    min-width: inherit;
+    max-width: 20%;
+  }
+}
 .row-brands .row-brands-arrow {
   width: 100px;
   margin-left: 100px;
