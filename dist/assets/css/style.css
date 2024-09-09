@@ -541,6 +541,10 @@ s {
   text-align: center;
 }
 
+.text-left {
+  text-align: left;
+}
+
 .text-right {
   text-align: right;
 }
@@ -555,6 +559,10 @@ s {
 
 .color-contrast-medium {
   color: hsla(var(--color-contrast-medium-h), var(--color-contrast-medium-s), var(--color-contrast-medium-l), var(--color-o, 1));
+}
+
+.color-white {
+  color: hsla(var(--color-white-h), var(--color-white-s), var(--color-white-l), var(--color-o, 1));
 }
 
 [class^=color-gradient], [class*=" color-gradient"] {
@@ -724,6 +732,10 @@ s {
   .padding-y-sm\@md {
     padding-top: var(--space-sm);
     padding-bottom: var(--space-sm);
+  }
+  .padding-y-lg\@md {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
   }
 }
 :root {
@@ -1192,6 +1204,20 @@ nav .header__item a.btn {
   .row-brands-pika img { background-color: hsl(43deg 68% 95%); }
   .row-brands-scrib img { background-color: $color-theme-lightgray; } */
 }
+@media (min-width: 500px) {
+  .row-brands .home-brands-grid .home-brand-logo {
+    min-width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .row-brands .home-brands-grid {
+    flex-wrap: nowrap;
+  }
+  .row-brands .home-brands-grid .home-brand-logo {
+    min-width: inherit;
+    max-width: 20%;
+  }
+}
 .row-brands .row-brands-arrow {
   width: 100px;
   margin-left: 100px;
@@ -1450,6 +1476,37 @@ footer a {
 
 .hero--patents .leader {
   font-size: 1.3em;
+}
+
+.row-news {
+  background-color: rgb(83, 171, 200);
+}
+.row-news p {
+  color: #fff;
+}
+.row-news p a {
+  text-decoration: underline;
+}
+.row-news p img {
+  float: left;
+  margin: 0 30px 20px 0;
+  max-width: 38%;
+  border-radius: 10px;
+  border: solid 7px rgba(0, 0, 0, 0.1);
+}
+@media screen and (max-width: 500px) {
+  .row-news p img {
+    margin-bottom: 20px;
+    max-width: 100%;
+    float: none;
+  }
+}
+.row-news b {
+  font-weight: 600;
+}
+.row-news .read-more__btn {
+  color: #cccc66;
+  font-weight: 600;
 }
 
 /* --------------------------------
@@ -2061,125 +2118,6 @@ Descr: A truncated paragraph with the option of reading more content
 Usage: codyhouse.co/license
 
 -------------------------------- */
-/* reset */
-*, *::after, *::before {
-  box-sizing: border-box;
-}
-
-* {
-  font: inherit;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-body {
-  background-color: hsl(0, 0%, 100%);
-  font-family: system-ui, sans-serif;
-  color: hsl(230, 7%, 23%);
-  font-size: 1rem;
-}
-
-h1, h2, h3, h4 {
-  line-height: 1.2;
-  color: hsl(230, 13%, 9%);
-  font-weight: 700;
-}
-
-h1 {
-  font-size: 2.0736rem;
-}
-
-h2 {
-  font-size: 1.728rem;
-}
-
-h3 {
-  font-size: 1.25rem;
-}
-
-h4 {
-  font-size: 1.2rem;
-}
-
-ol, ul, menu {
-  list-style: none;
-}
-
-button, input, textarea, select {
-  background-color: transparent;
-  border-radius: 0;
-  color: inherit;
-  line-height: inherit;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-}
-
-textarea {
-  resize: vertical;
-  overflow: auto;
-  vertical-align: top;
-}
-
-a {
-  color: hsl(250, 84%, 54%);
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-img, video, svg {
-  display: block;
-  max-width: 100%;
-}
-
-@media (min-width: 64rem) {
-  body {
-    font-size: 1.25rem;
-  }
-  h1 {
-    font-size: 3.051rem;
-  }
-  h2 {
-    font-size: 2.44rem;
-  }
-  h3 {
-    font-size: 1.75rem;
-  }
-  h4 {
-    font-size: 1.5625rem;
-  }
-}
-/* variables */
-:root {
-  /* colors */
-  --rh9-color-primary-hsl: 250, 84%, 54%;
-  --rh9-color-bg-hsl: 0, 0%, 100%;
-  --rh9-color-contrast-high-hsl: 230, 7%, 23%;
-  --rh9-color-contrast-higher-hsl: 230, 13%, 9%;
-  --rh9-color-accent-hsl: 342, 89%, 48%;
-  --rh9-color-contrast-lower-hsl: 240, 4%, 85%;
-  /* spacing */
-  --rh9-space-md: 1.25rem;
-  --rh9-space-sm: 0.75rem;
-  --rh9-space-xs: 0.5rem;
-  /* typography */
-  --rh9-text-sm: 0.833rem;
-}
-
-@media (min-width: 64rem) {
-  :root {
-    /* spacing */
-    --rh9-space-md: 2rem;
-    --rh9-space-sm: 1.125rem;
-    --rh9-space-xs: 0.75rem;
-    /* typography */
-    --rh9-text-sm: 1rem;
-  }
-}
 /* component */
 .read-more {
   opacity: 0;

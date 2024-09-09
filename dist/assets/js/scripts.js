@@ -1,1 +1,838 @@
-function Util(){}function resetFocusTabsStyle(){window.dispatchEvent(new CustomEvent("initFocusTabs"))}Util.hasClass=function(t,e){return t.classList.contains(e)},Util.addClass=function(t,e){e=e.split(" ");t.classList.add(e[0]),1<e.length&&Util.addClass(t,e.slice(1).join(" "))},Util.removeClass=function(t,e){e=e.split(" ");t.classList.remove(e[0]),1<e.length&&Util.removeClass(t,e.slice(1).join(" "))},Util.toggleClass=function(t,e,n){n?Util.addClass(t,e):Util.removeClass(t,e)},Util.setAttributes=function(t,e){for(var n in e)t.setAttribute(n,e[n])},Util.getChildrenByClassName=function(t,e){for(var n=t.children,i=[],o=0;o<n.length;o++)Util.hasClass(n[o],e)&&i.push(n[o]);return i},Util.is=function(t,e){if(e.nodeType)return t===e;for(var n="string"==typeof e?document.querySelectorAll(e):e,i=n.length;i--;)if(n[i]===t)return!0;return!1},Util.setHeight=function(n,i,o,s,a,l){function r(t){var t=t-(c=c||t),e=(s<t&&(t=s),parseInt(t/s*d+n));l&&(e=Math[l](t,n,i-n,s)),o.style.height=e+"px",t<s?window.requestAnimationFrame(r):a&&a()}var d=i-n,c=null;o.style.height=n+"px",window.requestAnimationFrame(r)},Util.scrollTo=function(n,i,o,t){function s(t){var t=t-(r=r||t),e=(i<t&&(t=i),Math.easeInOutQuad(t,l,n-l,i));a.scrollTo(0,e),t<i?window.requestAnimationFrame(s):o&&o()}var a=t||window,l=a.scrollTop||document.documentElement.scrollTop,r=null;t||(l=window.scrollY||document.documentElement.scrollTop);window.requestAnimationFrame(s)},Util.moveFocus=function(t){(t=t||document.getElementsByTagName("body")[0]).focus(),document.activeElement!==t&&(t.setAttribute("tabindex","-1"),t.focus())},Util.getIndexInArray=function(t,e){return Array.prototype.indexOf.call(t,e)},Util.cssSupports=function(t,e){return CSS.supports(t,e)},Util.extend=function(){var t={},e=!1,n=0,i=arguments.length;for("[object Boolean]"===Object.prototype.toString.call(arguments[0])&&(e=arguments[0],n++);n<i;n++){o=void 0;var o,s=arguments[n];for(o in s)Object.prototype.hasOwnProperty.call(s,o)&&(e&&"[object Object]"===Object.prototype.toString.call(s[o])?t[o]=extend(!0,t[o],s[o]):t[o]=s[o])}return t},Util.osHasReducedMotion=function(){var t;return!!window.matchMedia&&!!(t=window.matchMedia("(prefers-reduced-motion: reduce)"))&&t.matches},Math.easeInOutQuad=function(t,e,n,i){return(t/=i/2)<1?n/2*t*t+e:-n/2*(--t*(t-2)-1)+e},Math.easeInQuart=function(t,e,n,i){return n*(t/=i)*t*t*t+e},Math.easeOutQuart=function(t,e,n,i){return t/=i,-n*(--t*t*t*t-1)+e},Math.easeInOutQuart=function(t,e,n,i){return(t/=i/2)<1?n/2*t*t*t*t+e:-n/2*((t-=2)*t*t*t-2)+e},Math.easeOutElastic=function(t,e,n,i){var o=1.70158,s=.7*i,a=n;return 0==t?e:1==(t/=i)?e+n:(s=s||.3*i,o=a<Math.abs(n)?(a=n,s/4):s/(2*Math.PI)*Math.asin(n/a),a*Math.pow(2,-10*t)*Math.sin((t*i-o)*(2*Math.PI)/s)+n+e)},function(){var i=document.getElementsByClassName("js-tab-focus"),t=!1,e=!1,n=!1;function o(){0<i.length&&(a(!1),window.addEventListener("keydown",s)),window.removeEventListener("mousedown",o),n=!(e=!1)}function s(t){9===t.keyCode&&(a(!0),window.removeEventListener("keydown",s),window.addEventListener("mousedown",o),e=!0)}function a(t){for(var e=t?"":"none",n=0;n<i.length;n++)i[n].style.setProperty("outline",e)}function l(){t?n&&a(e):(t=0<i.length,window.addEventListener("mousedown",o))}l(),window.addEventListener("initFocusTabs",l)}(),function(){function t(t){var e;this.element=t,this.maxRotation=parseInt(this.element.getAttribute("data-rotation"))||2,this.perspective=this.element.getAttribute("data-perspective")||"300px",this.rotateX=0,this.rotateY=0,this.partRotateX=0,this.partRotateY=0,this.deltaRotation=.3,this.animating=!1,(e=this).element.addEventListener("mousemove",function(t){e.animating||(e.animating=window.requestAnimationFrame(n.bind(e,t,!1)))}),e.element.addEventListener("mouseleave",function(t){e.animating&&window.cancelAnimationFrame(e.animating),e.animating=window.requestAnimationFrame(n.bind(e,t,!0))})}function n(t,e){var n,i;n=this,t=t,(e=e)?(n.rotateX=0,n.rotateY=0):(e=n.element.getBoundingClientRect(),i=n.maxRotation/e.width*2*(t.clientX-e.left-e.width/2),t=n.maxRotation/e.height*2*(e.top-t.clientY+e.height/2),(i=i>n.maxRotation?n.maxRotation:i)<-1*n.maxRotation&&(i=-n.maxRotation),(t=t>n.maxRotation?n.maxRotation:t)<-1*n.maxRotation&&(t=-n.maxRotation),n.rotateX=t,n.rotateY=i),function t(e){if(e.partRotateX==e.rotateX&&e.partRotateY==e.rotateY)return void(e.animating=!1);e.partRotateX=o(e.partRotateX,e.rotateX,e.deltaRotation);e.partRotateY=o(e.partRotateY,e.rotateY,e.deltaRotation);s(e);e.animating=window.requestAnimationFrame(function(){t(e)})}(this)}function o(t,e,n){var i;return t==e?e:((i=t)<e?e<(i=t+n)&&(i=e):e<t&&(i=t-n)<e&&(i=e),i)}function s(t){t.element.style.transform="perspective("+t.perspective+") rotateX("+t.partRotateX+"deg) rotateY("+t.partRotateY+"deg)"}window.TdCard=t;var e=document.getElementsByClassName("js-td-card");if(0<e.length&&Util.cssSupports("transform","translateZ(0px)"))for(var i=0;i<e.length;i++)new t(e[i])}(),function(){var e,n,i,t,o=document.getElementsByClassName("js-header");function s(){!a(e)&&Util.hasClass(o[0],"header--expanded")&&l(!1)}function a(t){return t.offsetWidth||t.offsetHeight||t.getClientRects().length}function l(t){Util.toggleClass(n,"header__nav--is-visible",t),Util.toggleClass(o[0],"header--expanded",t),e.setAttribute("aria-expanded",t),t?n.querySelectorAll("[href], input:not([disabled]), button:not([disabled])")[0].focus():i&&(i.focus(),i=!1)}0<o.length&&(e=o[0].getElementsByClassName("js-header__trigger")[0],n=o[0].getElementsByClassName("js-header__nav")[0],i=!1,e.addEventListener("click",function(t){t.preventDefault(),l(!Util.hasClass(n,"header__nav--is-visible"))}),window.addEventListener("keyup",function(t){(t.keyCode&&27==t.keyCode||t.key&&"escape"==t.key.toLowerCase())&&"true"==e.getAttribute("aria-expanded")&&a(e)&&(i=e).click(),(t.keyCode&&9==t.keyCode||t.key&&"tab"==t.key.toLowerCase())&&"true"==e.getAttribute("aria-expanded")&&a(e)&&!document.activeElement.closest(".js-header")&&e.click()}),t=!1,window.addEventListener("resize",function(){clearTimeout(t),t=setTimeout(s,500)}))}();{function Util(){}}Util.addClass=function(t,e){e=e.split(" ");t.classList.add(e[0]),1<e.length&&Util.addClass(t,e.slice(1).join(" "))},Util.removeClass=function(t,e){e=e.split(" ");t.classList.remove(e[0]),1<e.length&&Util.removeClass(t,e.slice(1).join(" "))},Util.toggleClass=function(t,e,n){n?Util.addClass(t,e):Util.removeClass(t,e)},Util.moveFocus=function(t){(t=t||document.getElementsByTagName("body")[0]).focus(),document.activeElement!==t&&(t.setAttribute("tabindex","-1"),t.focus())},function(){function t(t){this.element=t,this.moreContent=this.element.getElementsByClassName("js-read-more__content"),this.count=this.element.getAttribute("data-characters")||200,this.counting=0,this.btnClasses=this.element.getAttribute("data-btn-class"),this.ellipsis=!this.element.getAttribute("data-ellipsis")||"off"!=this.element.getAttribute("data-ellipsis"),this.btnShowLabel="Read more",this.btnHideLabel="Read less",this.toggleOff=!this.element.getAttribute("data-toggle")||"off"!=this.element.getAttribute("data-toggle"),0==this.moreContent.length&&function t(e,n){if(n.counting>=n.count)return Util.addClass(e,"js-read-more__content"),e.outerHTML;var i=e.childNodes;var o="";for(var s=0;s<i.length;s++)i[s].nodeType==Node.TEXT_NODE?o+=a(i[s],n):o+=t(i[s],n);e.innerHTML=o;return e.outerHTML}((t=this).element,t),(e=(t=this).element.getAttribute("data-btn-labels"))&&(e=e.split(","),t.btnShowLabel=e[0].trim(),t.btnHideLabel=e[1].trim());var e,n,t=this;if(t.moreContent=t.element.getElementsByClassName("js-read-more__content"),0==t.moreContent.length)Util.addClass(t.element,"read-more--loaded");else{e=' <button class="js-read-more__btn '+t.btnClasses+'">'+t.btnShowLabel+"</button>",n=' <button class="js-read-more__btn rh9-hide '+t.btnClasses+'">'+t.btnHideLabel+"</button>",t.ellipsis&&(e='<span class="js-read-more__ellipsis" aria-hidden="true">...</span>'+e),t.moreContent[t.moreContent.length-1].insertAdjacentHTML("afterend",n),t.moreContent[0].insertAdjacentHTML("afterend",e);for(var i=t,o=0;o<i.moreContent.length;o++)Util.addClass(i.moreContent[o],"rh9-hide");Util.addClass(i.element,"read-more--loaded");var s=t;s.btnToggle=s.element.getElementsByClassName("js-read-more__btn"),s.ellipsis=s.element.getElementsByClassName("js-read-more__ellipsis"),s.btnToggle[0].addEventListener("click",function(t){t.preventDefault(),l(s,!0)}),s.btnToggle[1].addEventListener("click",function(t){t.preventDefault(),l(s,!1)})}}function a(t,e){var n,t=t.textContent;return 0==t.replace(/\s/g,"").length?"":e.counting>=e.count?'<span class="js-read-more__content">'+t+"</span>":e.counting+t.length<e.count?(e.counting=e.counting+t.length,t):(n=(n=t.substr(0,e.count-e.counting)).substr(0,Math.min(n.length,n.lastIndexOf(" "))),t=t.substr(n.length,t.length),e.counting=e.count,n+'<span class="js-read-more__content">'+t+"</span>")}function l(t,e){for(var n,i,o=0;o<t.moreContent.length;o++)Util.toggleClass(t.moreContent[o],"rh9-hide",!e);Util.toggleClass(t.btnToggle[0],"rh9-hide",e),Util.toggleClass(t.btnToggle[1],"rh9-hide",!e),0<t.ellipsis.length&&Util.toggleClass(t.ellipsis[0],"rh9-hide",e),t.toggleOff||Util.addClass(t.btn,"rh9-hide"),e?(i=t.moreContent[0].getAttribute("tabindex"),Util.moveFocus(t.moreContent[0]),n=t.moreContent[0],i=i,parseInt(n.getAttribute("tabindex"))<0&&(n.style.outline="none",i||n.removeAttribute("tabindex"))):Util.moveFocus(t.btnToggle[0])}var e=document.getElementsByClassName("js-read-more");if(0<e.length)for(var n=0;n<e.length;n++)new t(e[n])}(),function(){function t(t,e){if(this.element=t,this.options=[],this.boundingRect=this.element.getBoundingClientRect(),this.windowHeight=window.innerHeight,this.scrollingFx=[],this.animating=[],this.deltaScrolling=[],this.observer=[],this.scrollableSelector=e,this.scrollableElement=!1,t=this,!Util.osHasReducedMotion()){e=t;e.scrollableSelector&&(e.scrollableElement=document.querySelector(e.scrollableSelector)),(e=t.element.getAttribute("data-scroll-fx"))?t.options.push(s(e)):function t(e,n){var i=e.element.getAttribute("data-scroll-fx-"+n);i&&(e.options.push(s(i)),t(e,n+1));return}(t,1);for(var a=t,n=0;n<a.options.length;n++)!function(s){a.scrollingFx[s]=!1,a.deltaScrolling[s]=r(a,s),a.animating[s]=!1,a.observer[s]=new IntersectionObserver(function(t,e){{var n;(i=a,o=s,t[0].isIntersecting)?i.scrollingFx[o]||(n=o,(t=i).boundingRect=t.element.getBoundingClientRect(),t.windowHeight=window.innerHeight,t.deltaScrolling[n]=r(t,n),n=o,(t=i).scrollingFx[n]=l.bind(t,n),(t.scrollableElement||window).addEventListener("scroll",t.scrollingFx[n])):i.scrollingFx[o]&&(window.removeEventListener("scroll",i.scrollingFx[o]),i.scrollingFx[o]=!1)}var i,o},{rootMargin:a.options[s][5]-100+"% 0px "+(0-a.options[s][4])+"% 0px"}),a.observer[s].observe(a.element),setTimeout(function(){l.bind(a,s)()})}(n);var i=t,o=!1,e=(window.addEventListener("resize",function(){clearTimeout(o),o=setTimeout(function(){this.boundingRect=this.element.getBoundingClientRect(),this.windowHeight=window.innerHeight;for(var t=0;t<this.deltaScrolling.length;t++)this.deltaScrolling[t]=r(this,t),l.bind(this,t)();var e=new CustomEvent("scrollFxResized");this.element.dispatchEvent(e)}.bind(i),500)}),new CustomEvent("scrollFxReady"));i.element.dispatchEvent(e)}}function l(t){i(this)<this.deltaScrolling[t][0]?n(this,t,this.options[t][1]):i(this)>this.deltaScrolling[t][1]?n(this,t,this.options[t][2]):this.animating[t]||(this.animating[t]=!0,window.requestAnimationFrame(function(t){{var e;isNaN(this.options[t][1])?i(this)>=this.deltaScrolling[t][1]?n(this,t,this.options[t][2]):n(this,t,this.options[t][1]):(e=this.options[t][1]+(this.options[t][2]-this.options[t][1])*(i(this)-this.deltaScrolling[t][0])/(this.deltaScrolling[t][1]-this.deltaScrolling[t][0]),n(this,t,e))}this.animating[t]=!1}.bind(this,t)))}function n(t,e,n){var i,o;isNaN(n)?(o=n,(i=t).element.getAttribute("data-theme")!=o&&(Util.addClass(i.element,"scroll-fx--theme-transition"),i.element.offsetWidth,i.element.setAttribute("data-theme",o),i.element.addEventListener("transitionend",function t(){i.element.removeEventListener("transitionend",t),Util.removeClass(i.element,"scroll-fx--theme-transition")}))):"--scroll-fx-skew"==t.options[e][0]||"--scroll-fx-scale"==t.options[e][0]?(t.element.style.setProperty(t.options[e][0]+"-x",n+t.options[e][3]),t.element.style.setProperty(t.options[e][0]+"-y",n+t.options[e][3])):t.element.style.setProperty(t.options[e][0],n+t.options[e][3])}function s(t){var t=t.split(",").map(function(t){return t.trim()}),e=function(t,e){var n=parseFloat(t),i=parseFloat(e),o=t.replace(n,"");isNaN(n)&&(n=t,i=e,o="");return[n,i,o]}(t[1],t[2]);return[function(t){for(var e="--scroll-fx-",n=0;n<t.length;n++)e=t[n]==t[n].toUpperCase()?e+"-"+t[n].toLowerCase():e+t[n];"--scroll-fx-rotate"==e?e="--scroll-fx-rotate-z":"--scroll-fx-translate"==e&&(e="--scroll-fx-translate-x");return e}(t[0]),e[0],e[1],e[2],parseInt(t[3]),parseInt(t[4])]}function r(t,e){return[i(t)-(t.windowHeight-(t.windowHeight+t.boundingRect.height)*t.options[e][4]/100)+t.boundingRect.top,i(t)-(t.windowHeight-(t.windowHeight+t.boundingRect.height)*t.options[e][5]/100)+t.boundingRect.top]}function i(t){return t.scrollableElement?t.scrollableElement.scrollTop:window.scrollY}window.ScrollFx=t;for(var e,o,a=document.getElementsByClassName("js-scroll-fx"),d=0;d<a.length;d++)o=void 0,o=a[e=d].getAttribute("data-scrollable-element"),new t(a[e],o)}();
+// Utility function
+function Util () {};
+
+/* class manipulation functions */
+Util.hasClass = function(el, className) {
+	return el.classList.contains(className);
+};
+
+Util.addClass = function(el, className) {
+	var classList = className.split(' ');
+ 	el.classList.add(classList[0]);
+ 	if (classList.length > 1) Util.addClass(el, classList.slice(1).join(' '));
+};
+
+Util.removeClass = function(el, className) {
+	var classList = className.split(' ');
+	el.classList.remove(classList[0]);
+	if (classList.length > 1) Util.removeClass(el, classList.slice(1).join(' '));
+};
+
+Util.toggleClass = function(el, className, bool) {
+	if(bool) Util.addClass(el, className);
+	else Util.removeClass(el, className);
+};
+
+Util.setAttributes = function(el, attrs) {
+  for(var key in attrs) {
+    el.setAttribute(key, attrs[key]);
+  }
+};
+
+/* DOM manipulation */
+Util.getChildrenByClassName = function(el, className) {
+  var children = el.children,
+    childrenByClass = [];
+  for (var i = 0; i < children.length; i++) {
+    if (Util.hasClass(children[i], className)) childrenByClass.push(children[i]);
+  }
+  return childrenByClass;
+};
+
+Util.is = function(elem, selector) {
+  if(selector.nodeType){
+    return elem === selector;
+  }
+
+  var qa = (typeof(selector) === 'string' ? document.querySelectorAll(selector) : selector),
+    length = qa.length;
+
+  while(length--){
+    if(qa[length] === elem){
+      return true;
+    }
+  }
+
+  return false;
+};
+
+/* Animate height of an element */
+Util.setHeight = function(start, to, element, duration, cb, timeFunction) {
+	var change = to - start,
+	    currentTime = null;
+
+  var animateHeight = function(timestamp){
+    if (!currentTime) currentTime = timestamp;
+    var progress = timestamp - currentTime;
+    if(progress > duration) progress = duration;
+    var val = parseInt((progress/duration)*change + start);
+    if(timeFunction) {
+      val = Math[timeFunction](progress, start, to - start, duration);
+    }
+    element.style.height = val+"px";
+    if(progress < duration) {
+        window.requestAnimationFrame(animateHeight);
+    } else {
+    	if(cb) cb();
+    }
+  };
+
+  //set the height of the element before starting animation -> fix bug on Safari
+  element.style.height = start+"px";
+  window.requestAnimationFrame(animateHeight);
+};
+
+/* Smooth Scroll */
+Util.scrollTo = function(final, duration, cb, scrollEl) {
+  var element = scrollEl || window;
+  var start = element.scrollTop || document.documentElement.scrollTop,
+    currentTime = null;
+
+  if(!scrollEl) start = window.scrollY || document.documentElement.scrollTop;
+
+  var animateScroll = function(timestamp){
+  	if (!currentTime) currentTime = timestamp;
+    var progress = timestamp - currentTime;
+    if(progress > duration) progress = duration;
+    var val = Math.easeInOutQuad(progress, start, final-start, duration);
+    element.scrollTo(0, val);
+    if(progress < duration) {
+      window.requestAnimationFrame(animateScroll);
+    } else {
+      cb && cb();
+    }
+  };
+
+  window.requestAnimationFrame(animateScroll);
+};
+
+/* Move Focus */
+Util.moveFocus = function (element) {
+  if( !element ) element = document.getElementsByTagName("body")[0];
+  element.focus();
+  if (document.activeElement !== element) {
+    element.setAttribute('tabindex','-1');
+    element.focus();
+  }
+};
+
+/* Misc */
+
+Util.getIndexInArray = function(array, el) {
+  return Array.prototype.indexOf.call(array, el);
+};
+
+Util.cssSupports = function(property, value) {
+  return CSS.supports(property, value);
+};
+
+// merge a set of user options into plugin defaults
+// https://gomakethings.com/vanilla-javascript-version-of-jquery-extend/
+Util.extend = function() {
+  // Variables
+  var extended = {};
+  var deep = false;
+  var i = 0;
+  var length = arguments.length;
+
+  // Check if a deep merge
+  if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
+    deep = arguments[0];
+    i++;
+  }
+
+  // Merge the object into the extended object
+  var merge = function (obj) {
+    for ( var prop in obj ) {
+      if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
+        // If deep merge and property is an object, merge properties
+        if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
+          extended[prop] = extend( true, extended[prop], obj[prop] );
+        } else {
+          extended[prop] = obj[prop];
+        }
+      }
+    }
+  };
+
+  // Loop through each object and conduct a merge
+  for ( ; i < length; i++ ) {
+    var obj = arguments[i];
+    merge(obj);
+  }
+
+  return extended;
+};
+
+// Check if Reduced Motion is enabled
+Util.osHasReducedMotion = function() {
+  if(!window.matchMedia) return false;
+  var matchMediaObj = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if(matchMediaObj) return matchMediaObj.matches;
+  return false; // return false if not supported
+};
+
+/* Animation curves */
+Math.easeInOutQuad = function (t, b, c, d) {
+	t /= d/2;
+	if (t < 1) return c/2*t*t + b;
+	t--;
+	return -c/2 * (t*(t-2) - 1) + b;
+};
+
+Math.easeInQuart = function (t, b, c, d) {
+	t /= d;
+	return c*t*t*t*t + b;
+};
+
+Math.easeOutQuart = function (t, b, c, d) {
+  t /= d;
+	t--;
+	return -c * (t*t*t*t - 1) + b;
+};
+
+Math.easeInOutQuart = function (t, b, c, d) {
+	t /= d/2;
+	if (t < 1) return c/2*t*t*t*t + b;
+	t -= 2;
+	return -c/2 * (t*t*t*t - 2) + b;
+};
+
+Math.easeOutElastic = function (t, b, c, d) {
+  var s=1.70158;var p=d*0.7;var a=c;
+  if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
+  if (a < Math.abs(c)) { a=c; var s=p/4; }
+  else var s = p/(2*Math.PI) * Math.asin (c/a);
+  return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
+};
+
+
+/* JS Utility Classes */
+
+// make focus ring visible only for keyboard navigation (i.e., tab key)
+(function() {
+  var focusTab = document.getElementsByClassName('js-tab-focus'),
+    shouldInit = false,
+    outlineStyle = false,
+    eventDetected = false;
+
+  function detectClick() {
+    if(focusTab.length > 0) {
+      resetFocusStyle(false);
+      window.addEventListener('keydown', detectTab);
+    }
+    window.removeEventListener('mousedown', detectClick);
+    outlineStyle = false;
+    eventDetected = true;
+  };
+
+  function detectTab(event) {
+    if(event.keyCode !== 9) return;
+    resetFocusStyle(true);
+    window.removeEventListener('keydown', detectTab);
+    window.addEventListener('mousedown', detectClick);
+    outlineStyle = true;
+  };
+
+  function resetFocusStyle(bool) {
+    var outlineStyle = bool ? '' : 'none';
+    for(var i = 0; i < focusTab.length; i++) {
+      focusTab[i].style.setProperty('outline', outlineStyle);
+    }
+  };
+
+  function initFocusTabs() {
+    if(shouldInit) {
+      if(eventDetected) resetFocusStyle(outlineStyle);
+      return;
+    }
+    shouldInit = focusTab.length > 0;
+    window.addEventListener('mousedown', detectClick);
+  };
+
+  initFocusTabs();
+  window.addEventListener('initFocusTabs', initFocusTabs);
+}());
+
+function resetFocusTabsStyle() {
+  window.dispatchEvent(new CustomEvent('initFocusTabs'));
+};
+// File#: _1_3d-card
+// Usage: codyhouse.co/license
+(function() {
+  var TdCard = function(element) {
+    this.element = element;
+    this.maxRotation = parseInt(this.element.getAttribute('data-rotation')) || 2; // rotation max value
+    this.perspective = this.element.getAttribute('data-perspective') || '300px'; // perspective value
+    this.rotateX = 0;
+    this.rotateY = 0;
+    this.partRotateX = 0;
+    this.partRotateY = 0;
+    this.deltaRotation = 0.3;
+    this.animating = false;
+    initTdEvents(this);
+  };
+
+  function initTdEvents(tdCard) {
+    // detect mouse hovering over the card
+    tdCard.element.addEventListener('mousemove', function(event){
+      if(tdCard.animating) return;
+      tdCard.animating = window.requestAnimationFrame(moveCard.bind(tdCard, event, false));
+    });
+
+    // detect mouse leaving the card
+    tdCard.element.addEventListener('mouseleave', function(event){
+      if(tdCard.animating) window.cancelAnimationFrame(tdCard.animating);
+      tdCard.animating = window.requestAnimationFrame(moveCard.bind(tdCard, event, true));
+    });
+  };
+
+  function moveCard(event, leaving) {
+    // get final rotation values
+    setRotationLevel(this, event, leaving);
+
+    // update rotation values
+    updateRotationLevel(this);
+  };
+
+  function setRotationLevel(tdCard, event, leaving) {
+    if(leaving) {
+      tdCard.rotateX = 0;
+      tdCard.rotateY = 0;
+      return;
+    }
+
+    var wrapperPosition = tdCard.element.getBoundingClientRect();
+    var rotateY = 2*(tdCard.maxRotation/wrapperPosition.width)*(event.clientX - wrapperPosition.left - wrapperPosition.width/2);
+    var rotateX = 2*(tdCard.maxRotation/wrapperPosition.height)*(wrapperPosition.top - event.clientY + wrapperPosition.height/2);
+
+    if(rotateY > tdCard.maxRotation) rotateY = tdCard.maxRotation;
+    if(rotateY < -1*tdCard.maxRotation) rotateY = -tdCard.maxRotation;
+    if(rotateX > tdCard.maxRotation) rotateX = tdCard.maxRotation;
+    if(rotateX < -1*tdCard.maxRotation) rotateX = -tdCard.maxRotation;
+
+    tdCard.rotateX = rotateX;
+    tdCard.rotateY = rotateY;
+  };
+
+  function updateRotationLevel(tdCard) {
+    if( (tdCard.partRotateX == tdCard.rotateX) && (tdCard.partRotateY == tdCard.rotateY)) {
+      tdCard.animating = false;
+      return;
+    }
+
+    tdCard.partRotateX = getPartRotation(tdCard.partRotateX, tdCard.rotateX, tdCard.deltaRotation);
+    tdCard.partRotateY = getPartRotation(tdCard.partRotateY, tdCard.rotateY, tdCard.deltaRotation);
+    // set partial rotation
+    rotateCard(tdCard);
+    // keep rotating the card
+    tdCard.animating = window.requestAnimationFrame(function(){
+      updateRotationLevel(tdCard);
+    });
+  };
+
+  function getPartRotation(start, end, delta) {
+    if(start == end) return end;
+    var newVal = start;
+    if(start < end) {
+      newVal = start + delta;
+      if(newVal > end) newVal = end;
+    } else if(start > end) {
+      newVal = start - delta;
+      if(newVal < end) newVal = end;
+    }
+    return newVal;
+  }
+
+  function rotateCard(tdCard) {
+    tdCard.element.style.transform = 'perspective('+tdCard.perspective+') rotateX('+tdCard.partRotateX+'deg) rotateY('+tdCard.partRotateY+'deg)';
+  };
+
+  window.TdCard = TdCard;
+
+  //initialize the TdCard objects
+  var tdCards = document.getElementsByClassName('js-td-card');
+  if( tdCards.length > 0 && Util.cssSupports('transform', 'translateZ(0px)')) {
+    for( var i = 0; i < tdCards.length; i++) {
+      (function(i){
+        new TdCard(tdCards[i]);
+      })(i);
+    }
+  };
+}());
+
+// File#: _1_main-header
+// Usage: codyhouse.co/license
+(function() {
+  var mainHeader = document.getElementsByClassName('js-header');
+  if( mainHeader.length > 0 ) {
+    var trigger = mainHeader[0].getElementsByClassName('js-header__trigger')[0],
+      nav = mainHeader[0].getElementsByClassName('js-header__nav')[0];
+
+    // we'll use these to store the node that needs to receive focus when the mobile menu is closed
+    var focusMenu = false;
+
+    //detect click on nav trigger
+    trigger.addEventListener("click", function(event) {
+      event.preventDefault();
+      toggleNavigation(!Util.hasClass(nav, 'header__nav--is-visible'));
+    });
+
+    // listen for key events
+    window.addEventListener('keyup', function(event){
+      // listen for esc key
+      if( (event.keyCode && event.keyCode == 27) || (event.key && event.key.toLowerCase() == 'escape' )) {
+        // close navigation on mobile if open
+        if(trigger.getAttribute('aria-expanded') == 'true' && isVisible(trigger)) {
+          focusMenu = trigger; // move focus to menu trigger when menu is close
+          trigger.click();
+        }
+      }
+      // listen for tab key
+      if( (event.keyCode && event.keyCode == 9) || (event.key && event.key.toLowerCase() == 'tab' )) {
+        // close navigation on mobile if open when nav loses focus
+        if(trigger.getAttribute('aria-expanded') == 'true' && isVisible(trigger) && !document.activeElement.closest('.js-header')) trigger.click();
+      }
+    });
+
+    // listen for resize
+    var resizingId = false;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizingId);
+      resizingId = setTimeout(doneResizing, 500);
+    });
+
+    function doneResizing() {
+      if( !isVisible(trigger) && Util.hasClass(mainHeader[0], 'header--expanded')) toggleNavigation(false);
+    };
+  }
+
+  function isVisible(element) {
+    return (element.offsetWidth || element.offsetHeight || element.getClientRects().length);
+  };
+
+  function toggleNavigation(bool) { // toggle navigation visibility on small device
+    Util.toggleClass(nav, 'header__nav--is-visible', bool);
+    Util.toggleClass(mainHeader[0], 'header--expanded', bool);
+    trigger.setAttribute('aria-expanded', bool);
+    if(bool) { //opening menu -> move focus to first element inside nav
+      nav.querySelectorAll('[href], input:not([disabled]), button:not([disabled])')[0].focus();
+    } else if(focusMenu) {
+      focusMenu.focus();
+      focusMenu = false;
+    }
+  };
+}());
+
+// utility functions
+if(!Util) function Util () {};
+
+Util.addClass = function(el, className) {
+  var classList = className.split(' ');
+  el.classList.add(classList[0]);
+  if (classList.length > 1) Util.addClass(el, classList.slice(1).join(' '));
+};
+
+Util.removeClass = function(el, className) {
+  var classList = className.split(' ');
+  el.classList.remove(classList[0]);
+  if (classList.length > 1) Util.removeClass(el, classList.slice(1).join(' '));
+};
+
+Util.toggleClass = function(el, className, bool) {
+  if(bool) Util.addClass(el, className);
+  else Util.removeClass(el, className);
+};
+
+Util.moveFocus = function (element) {
+  if( !element ) element = document.getElementsByTagName('body')[0];
+  element.focus();
+  if (document.activeElement !== element) {
+    element.setAttribute('tabindex','-1');
+    element.focus();
+  }
+};
+
+
+// File#: _1_read-more
+// Usage: codyhouse.co/license
+(function() {
+  var ReadMore = function(element) {
+    this.element = element;
+    this.moreContent = this.element.getElementsByClassName('js-read-more__content');
+    this.count = this.element.getAttribute('data-characters') || 200;
+    this.counting = 0;
+    this.btnClasses = this.element.getAttribute('data-btn-class');
+    this.ellipsis = this.element.getAttribute('data-ellipsis') && this.element.getAttribute('data-ellipsis') == 'off' ? false : true;
+    this.btnShowLabel = 'Read more';
+    this.btnHideLabel = 'Read less';
+    this.toggleOff = this.element.getAttribute('data-toggle') && this.element.getAttribute('data-toggle') == 'off' ? false : true;
+    if( this.moreContent.length == 0 ) splitReadMore(this);
+    setBtnLabels(this);
+    initReadMore(this);
+  };
+
+  function splitReadMore(readMore) {
+    splitChildren(readMore.element, readMore); // iterate through children and hide content
+  };
+
+  function splitChildren(parent, readMore) {
+    if(readMore.counting >= readMore.count) {
+      Util.addClass(parent, 'js-read-more__content');
+      return parent.outerHTML;
+    }
+    var children = parent.childNodes;
+    var content = '';
+    for(var i = 0; i < children.length; i++) {
+      if (children[i].nodeType == Node.TEXT_NODE) {
+        content = content + wrapText(children[i], readMore);
+      } else {
+        content = content + splitChildren(children[i], readMore);
+      }
+    }
+    parent.innerHTML = content;
+    return parent.outerHTML;
+  };
+
+  function wrapText(element, readMore) {
+    var content = element.textContent;
+    if(content.replace(/\s/g,'').length == 0) return '';// check if content is empty
+    if(readMore.counting >= readMore.count) {
+      return '<span class="js-read-more__content">' + content + '</span>';
+    }
+    if(readMore.counting + content.length < readMore.count) {
+      readMore.counting = readMore.counting + content.length;
+      return content;
+    }
+    var firstContent = content.substr(0, readMore.count - readMore.counting);
+    firstContent = firstContent.substr(0, Math.min(firstContent.length, firstContent.lastIndexOf(" ")));
+    var secondContent = content.substr(firstContent.length, content.length);
+    readMore.counting = readMore.count;
+    return firstContent + '<span class="js-read-more__content">' + secondContent + '</span>';
+  };
+
+  function setBtnLabels(readMore) { // set custom labels for read More/Less btns
+    var btnLabels = readMore.element.getAttribute('data-btn-labels');
+    if(btnLabels) {
+      var labelsArray = btnLabels.split(',');
+      readMore.btnShowLabel = labelsArray[0].trim();
+      readMore.btnHideLabel = labelsArray[1].trim();
+    }
+  };
+
+  function initReadMore(readMore) { // add read more/read less buttons to the markup
+    readMore.moreContent = readMore.element.getElementsByClassName('js-read-more__content');
+    if( readMore.moreContent.length == 0 ) {
+      Util.addClass(readMore.element, 'read-more--loaded');
+      return;
+    }
+    var btnShow = ' <button class="js-read-more__btn '+readMore.btnClasses+'">'+readMore.btnShowLabel+'</button>';
+    var btnHide = ' <button class="js-read-more__btn rh9-hide '+readMore.btnClasses+'">'+readMore.btnHideLabel+'</button>';
+    if(readMore.ellipsis) {
+      btnShow = '<span class="js-read-more__ellipsis" aria-hidden="true">...</span>'+ btnShow;
+    }
+
+    readMore.moreContent[readMore.moreContent.length - 1].insertAdjacentHTML('afterend', btnHide);
+    readMore.moreContent[0].insertAdjacentHTML('afterend', btnShow);
+    resetAppearance(readMore);
+    initEvents(readMore);
+  };
+
+  function resetAppearance(readMore) { // hide part of the content
+    for(var i = 0; i < readMore.moreContent.length; i++) Util.addClass(readMore.moreContent[i], 'rh9-hide');
+    Util.addClass(readMore.element, 'read-more--loaded'); // show entire component
+  };
+
+  function initEvents(readMore) { // listen to the click on the read more/less btn
+    readMore.btnToggle = readMore.element.getElementsByClassName('js-read-more__btn');
+    readMore.ellipsis = readMore.element.getElementsByClassName('js-read-more__ellipsis');
+
+    readMore.btnToggle[0].addEventListener('click', function(event){
+      event.preventDefault();
+      updateVisibility(readMore, true);
+    });
+    readMore.btnToggle[1].addEventListener('click', function(event){
+      event.preventDefault();
+      updateVisibility(readMore, false);
+    });
+  };
+
+  function updateVisibility(readMore, visibile) {
+    for(var i = 0; i < readMore.moreContent.length; i++) Util.toggleClass(readMore.moreContent[i], 'rh9-hide', !visibile);
+    // reset btns appearance
+    Util.toggleClass(readMore.btnToggle[0], 'rh9-hide', visibile);
+    Util.toggleClass(readMore.btnToggle[1], 'rh9-hide', !visibile);
+    if(readMore.ellipsis.length > 0 ) Util.toggleClass(readMore.ellipsis[0], 'rh9-hide', visibile);
+    if(!readMore.toggleOff) Util.addClass(readMore.btn, 'rh9-hide');
+    // move focus
+    if(visibile) {
+      var targetTabIndex = readMore.moreContent[0].getAttribute('tabindex');
+      Util.moveFocus(readMore.moreContent[0]);
+      resetFocusTarget(readMore.moreContent[0], targetTabIndex);
+    } else {
+      Util.moveFocus(readMore.btnToggle[0]);
+    }
+  };
+
+  function resetFocusTarget(target, tabindex) {
+    if( parseInt(target.getAttribute('tabindex')) < 0) {
+			target.style.outline = 'none';
+			!tabindex && target.removeAttribute('tabindex');
+		}
+  };
+
+  //initialize the ReadMore objects
+	var readMore = document.getElementsByClassName('js-read-more');
+	if( readMore.length > 0 ) {
+		for( var i = 0; i < readMore.length; i++) {
+			(function(i){new ReadMore(readMore[i]);})(i);
+		}
+	};
+}());
+
+// File#: _1_scrolling-animations
+// Usage: codyhouse.co/license
+(function() {
+  var ScrollFx = function(element, scrollableSelector) {
+    this.element = element;
+    this.options = [];
+    this.boundingRect = this.element.getBoundingClientRect();
+    this.windowHeight = window.innerHeight;
+    this.scrollingFx = [];
+    this.animating = [];
+    this.deltaScrolling = [];
+    this.observer = [];
+    this.scrollableSelector = scrollableSelector; // if the scrollable element is not the window
+    this.scrollableElement = false;
+    initScrollFx(this);
+    // ToDo - option to pass two selectors to target the element start and stop animation scrolling values -> to be used for sticky/fixed elements
+  };
+
+  function initScrollFx(element) {
+    // do not animate if reduced motion is on
+    if(Util.osHasReducedMotion()) return;
+    // get scrollable element
+    setScrollableElement(element);
+    // get animation params
+    var animation = element.element.getAttribute('data-scroll-fx');
+    if(animation) {
+      element.options.push(extractAnimation(animation));
+    } else {
+      getAnimations(element, 1);
+    }
+    // set Intersection Observer
+    initObserver(element);
+    // update params on resize
+    initResize(element);
+  };
+
+  function setScrollableElement(element) {
+    if(element.scrollableSelector) element.scrollableElement = document.querySelector(element.scrollableSelector);
+  };
+
+  function initObserver(element) {
+    for(var i = 0; i < element.options.length; i++) {
+      (function(i){
+        element.scrollingFx[i] = false;
+        element.deltaScrolling[i] = getDeltaScrolling(element, i);
+        element.animating[i] = false;
+
+        element.observer[i] = new IntersectionObserver(
+          function(entries, observer) {
+            scrollFxCallback(element, i, entries, observer);
+          },
+          {
+            rootMargin: (element.options[i][5] -100)+"% 0px "+(0 - element.options[i][4])+"% 0px"
+          }
+        );
+
+        element.observer[i].observe(element.element);
+
+        // set initial value
+        setTimeout(function(){
+          animateScrollFx.bind(element, i)();
+        })
+      })(i);
+    }
+  };
+
+  function scrollFxCallback(element, index, entries, observer) {
+    if(entries[0].isIntersecting) {
+      if(element.scrollingFx[index]) return; // listener for scroll event already added
+      // reset delta
+      resetDeltaBeforeAnim(element, index);
+      triggerAnimateScrollFx(element, index);
+    } else {
+      if(!element.scrollingFx[index]) return; // listener for scroll event already removed
+      window.removeEventListener('scroll', element.scrollingFx[index]);
+      element.scrollingFx[index] = false;
+    }
+  };
+
+  function triggerAnimateScrollFx(element, index) {
+    element.scrollingFx[index] = animateScrollFx.bind(element, index);
+    (element.scrollableElement)
+      ? element.scrollableElement.addEventListener('scroll', element.scrollingFx[index])
+      : window.addEventListener('scroll', element.scrollingFx[index]);
+  };
+
+  function animateScrollFx(index) {
+    // if window scroll is outside the proper range -> return
+    if(getScrollY(this) < this.deltaScrolling[index][0]) {
+      setCSSProperty(this, index, this.options[index][1]);
+      return;
+    }
+    if(getScrollY(this) > this.deltaScrolling[index][1]) {
+      setCSSProperty(this, index, this.options[index][2]);
+      return;
+    }
+    if(this.animating[index]) return;
+    this.animating[index] = true;
+    window.requestAnimationFrame(updatePropertyScroll.bind(this, index));
+  };
+
+  function updatePropertyScroll(index) { // get value
+    // check if this is a theme value or a css property
+    if(isNaN(this.options[index][1])) {
+      // this is a theme value to update
+      (getScrollY(this) >= this.deltaScrolling[index][1])
+        ? setCSSProperty(this, index, this.options[index][2])
+        : setCSSProperty(this, index, this.options[index][1]);
+    } else {
+      // this is a CSS property
+      var value = this.options[index][1] + (this.options[index][2] - this.options[index][1])*(getScrollY(this) - this.deltaScrolling[index][0])/(this.deltaScrolling[index][1] - this.deltaScrolling[index][0]);
+      // update css property
+      setCSSProperty(this, index, value);
+    }
+
+    this.animating[index] = false;
+  };
+
+  function setCSSProperty(element, index, value) {
+    if(isNaN(value)) {
+      // this is a theme value that needs to be updated
+      setThemeValue(element, value);
+      return;
+    }
+    if(element.options[index][0] == '--scroll-fx-skew' || element.options[index][0] == '--scroll-fx-scale') {
+      // set 2 different CSS properties for the transformation on both x and y axis
+      element.element.style.setProperty(element.options[index][0]+'-x', value+element.options[index][3]);
+      element.element.style.setProperty(element.options[index][0]+'-y', value+element.options[index][3]);
+    } else {
+      // set single CSS property
+      element.element.style.setProperty(element.options[index][0], value+element.options[index][3]);
+    }
+  };
+
+  function setThemeValue(element, value) {
+    // if value is different from the theme in use -> update it
+    if(element.element.getAttribute('data-theme') != value) {
+      Util.addClass(element.element, 'scroll-fx--theme-transition');
+      element.element.offsetWidth;
+      element.element.setAttribute('data-theme', value);
+      element.element.addEventListener('transitionend', function cb(){
+        element.element.removeEventListener('transitionend', cb);
+        Util.removeClass(element.element, 'scroll-fx--theme-transition');
+      });
+    }
+  };
+
+  function getAnimations(element, index) {
+    var option = element.element.getAttribute('data-scroll-fx-'+index);
+    if(option) {
+      // multiple animations for the same element - iterate through them
+      element.options.push(extractAnimation(option));
+      getAnimations(element, index+1);
+    }
+    return;
+  };
+
+  function extractAnimation(option) {
+    var array = option.split(',').map(function(item) {
+      return item.trim();
+    });
+    var propertyOptions = getPropertyValues(array[1], array[2]);
+    var animation = [getPropertyLabel(array[0]), propertyOptions[0], propertyOptions[1], propertyOptions[2], parseInt(array[3]), parseInt(array[4])];
+    return animation;
+  };
+
+  function getPropertyLabel(property) {
+    var propertyCss = '--scroll-fx-';
+    for(var i = 0; i < property.length; i++) {
+      propertyCss = (property[i] == property[i].toUpperCase())
+        ? propertyCss + '-'+property[i].toLowerCase()
+        : propertyCss +property[i];
+    }
+    if(propertyCss == '--scroll-fx-rotate') {
+      propertyCss = '--scroll-fx-rotate-z';
+    } else if(propertyCss == '--scroll-fx-translate') {
+      propertyCss = '--scroll-fx-translate-x';
+    }
+    return propertyCss;
+  };
+
+  function getPropertyValues(val1, val2) {
+    var nbVal1 = parseFloat(val1),
+      nbVal2 = parseFloat(val2),
+      unit = val1.replace(nbVal1, '');
+    if(isNaN(nbVal1)) {
+      // property is a theme value
+      nbVal1 = val1;
+      nbVal2 = val2;
+      unit = '';
+    }
+    return [nbVal1, nbVal2, unit];
+  };
+
+  function getDeltaScrolling(element, index) {
+    // this retrieve the max and min scroll value that should trigger the animation
+    var topDelta = getScrollY(element) - (element.windowHeight - (element.windowHeight + element.boundingRect.height)*element.options[index][4]/100) + element.boundingRect.top,
+      bottomDelta = getScrollY(element) - (element.windowHeight - (element.windowHeight + element.boundingRect.height)*element.options[index][5]/100) + element.boundingRect.top;
+    return [topDelta, bottomDelta];
+  };
+
+  function initResize(element) {
+    var resizingId = false;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizingId);
+      resizingId = setTimeout(resetResize.bind(element), 500);
+    });
+    // emit custom event -> elements have been initialized
+    var event = new CustomEvent('scrollFxReady');
+    element.element.dispatchEvent(event);
+  };
+
+  function resetResize() {
+    // on resize -> make sure to update all scrolling delta values
+    this.boundingRect = this.element.getBoundingClientRect();
+    this.windowHeight = window.innerHeight;
+    for(var i = 0; i < this.deltaScrolling.length; i++) {
+      this.deltaScrolling[i] = getDeltaScrolling(this, i);
+      animateScrollFx.bind(this, i)();
+    }
+    // emit custom event -> elements have been resized
+    var event = new CustomEvent('scrollFxResized');
+    this.element.dispatchEvent(event);
+  };
+
+  function resetDeltaBeforeAnim(element, index) {
+    element.boundingRect = element.element.getBoundingClientRect();
+    element.windowHeight = window.innerHeight;
+    element.deltaScrolling[index] = getDeltaScrolling(element, index);
+  };
+
+  function getScrollY(element) {
+    if(!element.scrollableElement) return window.scrollY;
+    return element.scrollableElement.scrollTop;
+  }
+
+  window.ScrollFx = ScrollFx;
+
+  var scrollFx = document.getElementsByClassName('js-scroll-fx');
+  for(var i = 0; i < scrollFx.length; i++) {
+    (function(i){
+      var scrollableElement = scrollFx[i].getAttribute('data-scrollable-element');
+      new ScrollFx(scrollFx[i], scrollableElement);
+    })(i);
+  }
+}());

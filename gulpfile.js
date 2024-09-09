@@ -22,7 +22,7 @@ var scssFilesPath = 'main/assets/css/**/*.scss'; // scss files to watch
 function reload(done) {
   browserSync.reload();
   done();
-} 
+}
 
 /* Gulp watch tasks */
 // This task is used to convert the scss to css and compress it.
@@ -45,7 +45,7 @@ gulp.task('sass', function() {
 // This task is used to combine all js files in a single scripts.min.js.
 gulp.task('scripts', function() {
   return gulp.src([utilJsPath+'/util.js', componentsJsPath])
-  .pipe(concat('scripts.js'))
+  // .pipe(concat('scripts.js'))
   .pipe(gulp.dest(scriptsJsPath))
   .pipe(browserSync.reload({
     stream: true
@@ -90,7 +90,7 @@ gulp.task('dist', async function(){
   await moveJS();
   // copy all the assets inside main/assets/img folder to the dist folder
   await moveAssets();
-  // copy all html files inside main folder to the dist folder 
+  // copy all html files inside main folder to the dist folder
   await moveContent();
   console.log('Distribution task completed!')
 });
@@ -108,7 +108,7 @@ function purgeCSS() {
       defaultExtractor: content => content.match(/[\w-/:%@]+(?<!:)/g) || []
     }))
     .pipe(gulp.dest(distFolder+'/assets/css'));
-    
+
     stream.on('finish', function() {
       resolve();
     });
@@ -119,8 +119,8 @@ function minifyJs() {
   return new Promise(function(resolve, reject) {
     var stream = gulp.src(scriptsJsPath+'/scripts.js')
     .pipe(uglify())
-    .pipe(gulp.dest(distFolder+'/assets/js'));
-    
+    .pipe(gulp.dest(distFolder+'/assets/old/js'));
+
     stream.on('finish', function() {
       resolve();
     });
@@ -131,7 +131,7 @@ function moveJS() {
   return new Promise(function(resolve, reject) {
     var stream = gulp.src([scriptsJsPath+'/*.js', '!'+scriptsJsPath+'/scripts.js', '!'+scriptsJsPath+'/scripts.min.js'], { allowEmpty: true })
     .pipe(gulp.dest(assetsFolder+'js'));
-    
+
     stream.on('finish', function() {
       resolve();
     });
@@ -142,7 +142,7 @@ function moveAssets() {
   return new Promise(function(resolve, reject) {
     var stream = gulp.src(['main/assets/img/**'], { allowEmpty: true })
     .pipe(gulp.dest(assetsFolder+'img'));
-    
+
     stream.on('finish', function() {
       resolve();
     });
@@ -153,10 +153,9 @@ function moveContent() {
   return new Promise(function(resolve, reject) {
     var stream = gulp.src('main/*.html')
     .pipe(gulp.dest(distFolder));
-    
+
     stream.on('finish', function() {
       resolve();
     });
   });
 };
-
