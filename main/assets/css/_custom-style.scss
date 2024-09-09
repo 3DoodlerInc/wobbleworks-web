@@ -113,7 +113,7 @@ nav {
 
 .row-brands {
   .home-brands-grid {
-    
+
     @media (min-width:500px) {
       .home-brand-logo {
         min-width: 50%;
@@ -423,16 +423,22 @@ footer {
 
   p {
     color: #fff;
+    a {
+      text-decoration: underline;
+    }
     img {
       float: left;
       margin: 0 30px 20px 0;
-      max-width: 230px;
+      // max-width: 230px;
+      max-width: 38%;
       border-radius: 10px;
       border: solid 7px rgba(0,0,0,.1);
 
       @media screen and (max-width: 500px) {
-        margin-bottom: 20px; 
-        max-width: 140px;
+        margin-bottom: 20px;
+        // max-width: 140px;
+        max-width:100%;
+        float:none;
       }
     }
   }
